@@ -1,6 +1,9 @@
-package com.example.base;
+package com.example.pages;
 
+import com.example.base.BasePage;
 import org.openqa.selenium.By;
+
+import static com.example.utils.GetUtility.getText;
 
 public class LoginPage extends BasePage {
 
@@ -30,6 +33,6 @@ public class LoginPage extends BasePage {
     }
 
     public String getErrorMessage() {
-        return find(errorMessage).getText();
+        return getText(errorMessage);
     }
 }
