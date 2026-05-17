@@ -6,6 +6,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import java.time.Duration;
+
 import static com.example.utils.Utility.setUtilityDriver;
 
 public class BaseTest {
@@ -13,13 +15,14 @@ public class BaseTest {
     private WebDriver driver;
     protected BasePage basePage;
     protected LoginPage loginPage;
-    private String baseUrl = "http://localhost:3000";
+    private String baseUrl = System.getProperty("baseUrl", "http://localhost:3000");
 
 
     @BeforeClass
     public void setup() {
-        // Setup Chrome driver and maximize window on load
         driver = new ChromeDriver();
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
+        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
         driver.manage().window().maximize();
     }
 
@@ -34,7 +37,9 @@ public class BaseTest {
 
     @AfterClass
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
 }
