@@ -1,4 +1,4 @@
-package com.example.tests;
+package com.example.tests.login;
 
 import com.example.base.BaseTest;
 import com.example.pages.FormPage;
