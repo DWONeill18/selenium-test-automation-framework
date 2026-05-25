@@ -1,8 +1,14 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Selenium Test Suite">
-  <test name="Login Tests">
+  <test name="All Tests">
     <classes>
-      <class name="com.example.tests.LoginTest"/>
+      <class name="com.example.tests.form.BrowserAlertCheckBoxTest"/>
+      <class name="com.example.tests.form.BrowserAlertTest"/>
+      <class name="com.example.tests.form.CountryDropDownTest"/>
+      <class name="com.example.tests.form.FormSubmissionTest"/>
+      <class name="com.example.tests.form.HobbyCheckBoxTest"/>
+      <class name="com.example.tests.form.PriorityRadioButtonsTest"/>
+      <class name="com.example.tests.login.LoginTest"/>
     </classes>
   </test>
 </suite>
