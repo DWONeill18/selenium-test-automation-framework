@@ -12,7 +12,7 @@ public class FormSubmissionTest extends BaseTest {
         formPage.unclickBrowserAlertCheckBox();
         formPage.clickSubmitButton();
 
-        String submissionText = formPage.getSubmitionText();
+        String submissionText = formPage.getSubmissionText();
         String actualSubmissionText = "Form submitted successfully";
         Assert.assertEquals(submissionText, actualSubmissionText, "\n Form submission text is incorrect \n");
     }
