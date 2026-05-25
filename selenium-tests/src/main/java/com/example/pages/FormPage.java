@@ -12,7 +12,7 @@ public class FormPage extends BasePage {
 
     private By browserAlertCheckBox = By.cssSelector("[data-testid='toggle-alert']");
 
-    private By lowPriorityRadioButton = By.xpath("//input[@type='radio']/following-sibling::text()[contains(.,'low')]");
+    private By lowPriorityRadioButton = By.xpath("//label[contains(.,'medium')]//input[@type='radio']");
     private By mediumPriorityRadioButton = By.xpath("//label[contains(.,'medium')]//input[@type='radio']");
     private By highPriorityRadioButton = By.xpath("//label[contains(.,'high')]//input[@type='radio']");
 
@@ -20,13 +20,11 @@ public class FormPage extends BasePage {
     private By codingCheckBox = By.xpath("//label[contains(.,'Coding')]//input[@type='checkbox']");
     private By musicCheckBox = By.xpath("//label[contains(.,'Music')]//input[@type='checkbox']");
 
-    private By countryDropdown = By.xpath("//h4[contains(.,'Country')]/following::select[1]");
+    public By countryDropdown = By.xpath("//h4[contains(.,'Country')]/following::select[1]");
 
     private By submitButton = By.xpath("//button[text()='Submit']");
 
-    private By formSubmitionText = By.xpath("//div[@data-testid='form-success']");
-    private By submitionAlert = By.id("form-submition-alert-1");
-
+    private By formSubmissionText = By.xpath("//div[@data-testid='form-success']");
 
     public String getFormHeaderText() {
         return getText(formHeader);
@@ -48,8 +46,8 @@ public class FormPage extends BasePage {
         }
     }
 
-    public String getSubmitionText() {
-        return getText(formSubmitionText);
+    public String getSubmissionText() {
+        return getText(formSubmissionText);
     }
 
     public boolean isBrowserAlertCheckBoxSelected() {
@@ -143,15 +141,15 @@ public class FormPage extends BasePage {
         return find(musicCheckBox).isSelected();
     }
 
-    public void selectUK(By locator, String text) {
+    public void selectUKFromDropDown() {
         selectByVisibleText(countryDropdown, "UK");
     }
 
-    public void selectUS(By locator, String text) {
+    public void selectUSFromDropDown() {
         selectByVisibleText(countryDropdown, "USA");
     }
 
-    public void selectIndia(By locator, String text) {
+    public void selectIndiaFromDropDown() {
         selectByVisibleText(countryDropdown, "India");
     }
 
