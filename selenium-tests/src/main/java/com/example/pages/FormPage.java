@@ -26,6 +26,8 @@ public class FormPage extends BasePage {
 
     private By formSubmissionText = By.xpath("//div[@data-testid='form-success']");
 
+    private By fakeElement = By.id("fake-id");
+
     public String getFormHeaderText() {
         return getText(formHeader);
     }
@@ -156,5 +158,9 @@ public class FormPage extends BasePage {
     public void clickSubmitButton() {
         scroll(submitButton);
         click(submitButton);
+    }
+
+    public void clickFakeElement() {
+        click(fakeElement);
     }
 }
