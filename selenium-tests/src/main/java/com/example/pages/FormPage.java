@@ -8,6 +8,11 @@ import static com.example.utils.GetUtility.getText;
 
 public class FormPage extends BasePage {
 
+    private By adminPageMenuButton = By.cssSelector("[data-testid='nav-admin']");
+    private By logoutMenuButton = By.cssSelector("[data-testid='nav-logout']");
+    private By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
+    private By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
+
     private By formHeader = By.xpath("//*[@id=\"root\"]/div/div/h2");
 
     private By browserAlertCheckBox = By.cssSelector("[data-testid='toggle-alert']");
@@ -27,6 +32,34 @@ public class FormPage extends BasePage {
     private By formSubmissionText = By.xpath("//div[@data-testid='form-success']");
 
     private By fakeElement = By.id("fake-id");
+
+    public AdminPage clickAdminPageButton() {
+        scroll(adminPageMenuButton);
+        click(adminPageMenuButton);
+        return new AdminPage();
+    }
+
+    public boolean isAdminPageButtonEnabled() {
+        return find(adminPageMenuButton).isEnabled();
+    }
+
+    public TablePage clickTablePageButton() {
+        scroll(tablePageMenuButton);
+        click(tablePageMenuButton);
+        return new TablePage();
+    }
+
+    public FormPage clickFormPageButton() {
+        scroll(formPageMenuButton);
+        click(formPageMenuButton);
+        return new FormPage();
+    }
+
+    public LoginPage clickLogoutButton() {
+        scroll(logoutMenuButton);
+        click(logoutMenuButton);
+        return new LoginPage();
+    }
 
     public String getFormHeaderText() {
         return getText(formHeader);
