@@ -9,6 +9,7 @@
       <class name="com.example.tests.form.HobbyCheckBoxTest"/>
       <class name="com.example.tests.form.PriorityRadioButtonsTest"/>
       <class name="com.example.tests.login.LoginTest"/>
+      <class name="com.example.tests.navigation.NavigationButtonsTest"/>
     </classes>
   </test>
 </suite>
