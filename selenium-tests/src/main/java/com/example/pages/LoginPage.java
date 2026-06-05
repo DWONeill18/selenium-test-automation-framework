@@ -7,10 +7,15 @@ import static com.example.utils.GetUtility.getText;
 
 public class LoginPage extends BasePage {
 
+    private By loginPageHeader = By.xpath("//*[@id='root']/div/div/div/h2");
     private By usernameField  = By.cssSelector("[data-testid='username']");
     private By passwordField = By.cssSelector("[data-testid='password']");
     private By loginButton = By.cssSelector("[data-testid='login-btn']");
     private By errorMessage = By.cssSelector("[data-testid='login-error']");
+
+    public String getLoginHeaderText() {
+        return getText(loginPageHeader);
+    }
 
     public void setUsername(String username) {
         set(usernameField, username);
