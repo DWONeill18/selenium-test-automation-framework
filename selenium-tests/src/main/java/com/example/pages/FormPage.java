@@ -9,7 +9,7 @@ import static com.example.utils.GetUtility.getText;
 public class FormPage extends BasePage {
 
     private By adminPageMenuButton = By.cssSelector("[data-testid='nav-admin']");
-    private By logoutMenuButton = By.cssSelector("[data-testid='nav-logout']");
+    private By logoutMenuButton = By.cssSelector("[data-testid='logout']");
     private By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
     private By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
 
@@ -47,12 +47,6 @@ public class FormPage extends BasePage {
         scroll(tablePageMenuButton);
         click(tablePageMenuButton);
         return new TablePage();
-    }
-
-    public FormPage clickFormPageButton() {
-        scroll(formPageMenuButton);
-        click(formPageMenuButton);
-        return new FormPage();
     }
 
     public LoginPage clickLogoutButton() {
