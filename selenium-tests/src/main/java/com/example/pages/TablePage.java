@@ -13,6 +13,11 @@ public class TablePage extends BasePage {
 
     private By tablePageHeader = By.xpath("//*[@id=\"root\"]/div/div/h2");
 
+    private By previousButton = By.xpath("//button[text()='Prev']");
+    private By nextButton = By.xpath("//button[text()='Next']");
+
+    private By editUser1Button = By.xpath("//tr[td[contains(text(),'User1')]]//button[text()='Edit']");
+
     public String getTableHeaderText() {
         return getText(tablePageHeader);
     }
