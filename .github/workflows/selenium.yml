@@ -27,7 +27,7 @@ jobs:
 
       - name: Install React dependencies
         working-directory: ./react-app
-        run: npm install
+        run: npm ci
 
       - name: Start React app
         working-directory: ./react-app
