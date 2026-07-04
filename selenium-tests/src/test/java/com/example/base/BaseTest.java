@@ -5,6 +5,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.io.FileHandler;
 import org.testng.ITest;
 import org.testng.ITestResult;
@@ -30,7 +31,12 @@ public class BaseTest {
 
     @BeforeClass
     public void setup() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new  ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+
+        driver = new ChromeDriver(options);
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
         driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
         driver.manage().window().maximize();
