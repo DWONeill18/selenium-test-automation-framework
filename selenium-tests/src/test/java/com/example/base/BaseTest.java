@@ -33,13 +33,17 @@ public class BaseTest {
     public void setup() {
         ChromeOptions options = new  ChromeOptions();
         options.addArguments("--headless=new");
-        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920,1080");
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
         driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
+
+        if (System.getenv("GITHUB_ACTIONS") == null) {
+            driver.manage().window().maximize();
+        }
     }
 
     @BeforeMethod
