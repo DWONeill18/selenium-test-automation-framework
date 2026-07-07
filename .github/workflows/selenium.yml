@@ -1,0 +1,41 @@
+name: Selenium Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  UI-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install React dependencies
+        working-directory: ./react-app
+        run: npm ci
+
+      - name: Start React app
+        working-directory: ./react-app
+        run: npm start &
+
+      - name: Wait for React app
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Selenium TestNG tests
+        working-directory: ./selenium-tests
+        run: mvn clean test
