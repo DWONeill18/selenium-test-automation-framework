@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build
+FROM node:current-alpine3.24 AS build
 LABEL authors="David O'Neill"
 
 WORKDIR /app
