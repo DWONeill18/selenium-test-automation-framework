@@ -16,8 +16,6 @@ public class TablePage extends BasePage {
     private By previousButton = By.xpath("//button[text()='Prev']");
     private By nextButton = By.xpath("//button[text()='Next']");
 
-    private By editUser1Button = By.xpath("//tr[td[contains(text(),'User1')]]//button[text()='Edit']");
-
     public String getTableHeaderText() {
         return getText(tablePageHeader);
     }
@@ -43,4 +41,25 @@ public class TablePage extends BasePage {
         click(logoutMenuButton);
         return new LoginPage();
     }
+
+    public By editButtonForUser(String username) {
+        return By.xpath("//tr[td[contains(text(),'" + username + "')]]//button[text()='Edit']");
+    }
+
+    public By deleteButtonForUser(String username) {
+        return By.xpath("//tr[td[contains(text(),'" + username + "')]]//button[text()='Delete']");
+    }
+
+    public TablePage clickDeleteButtonForUser(String username) {
+        scroll(deleteButtonForUser(username));
+        click(deleteButtonForUser(username));
+        return new TablePage();
+    }
+
+    public TablePage clickEditButtonForUser(String username) {
+        scroll(editButtonForUser(username));
+        click(editButtonForUser(username));
+        return new TablePage();
+    }
 }
+
