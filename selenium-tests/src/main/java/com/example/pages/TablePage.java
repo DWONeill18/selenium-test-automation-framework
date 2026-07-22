@@ -46,8 +46,16 @@ public class TablePage extends BasePage {
         return By.xpath("//tr[td[contains(text(),'" + username + "')]]//button[text()='Edit']");
     }
 
+    public By editButtonForId(String id) {
+        return By.xpath("//tr[td[contains(text(),'" + id + "')]]//button[text()='Edit']");
+    }
+
     public By deleteButtonForUser(String username) {
         return By.xpath("//tr[td[contains(text(),'" + username + "')]]//button[text()='Delete']");
+    }
+
+    public By deleteButtonForId(String id) {
+        return By.xpath("//tr[td[contains(text(),'" + id + "')]]//button[text()='Delete']");
     }
 
     public TablePage clickDeleteButtonForUser(String username) {
@@ -60,6 +68,16 @@ public class TablePage extends BasePage {
         scroll(editButtonForUser(username));
         click(editButtonForUser(username));
         return new TablePage();
+    }
+
+    public String getUsername(String id) {
+        return driver.findElement(
+                By.xpath("//tr[td[contains(text(),'" + id + "')]]/td[1]")).getText();
+    }
+
+    public String getStatus(String username) {
+        return driver.findElement(
+                By.xpath("//tr[td[contains(text(),'" + username + "')]]/td[1]")).getText();
     }
 }
 
