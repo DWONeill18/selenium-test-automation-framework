@@ -70,14 +70,14 @@ public class TablePage extends BasePage {
         return new TablePage();
     }
 
-    public String getUsername(String id) {
+    public String getUsernameById(String id) {
         return driver.findElement(
                 By.xpath("//tr[td[contains(text(),'" + id + "')]]/td[1]")).getText();
     }
 
-    public String getStatus(String username) {
+    public String getStatusById(String id) {
         return driver.findElement(
-                By.xpath("//tr[td[contains(text(),'" + username + "')]]/td[1]")).getText();
+                By.xpath("//tr[td[contains(text(),'" + id + "')]]/td[1]")).getText();
     }
 }
 
