@@ -2,8 +2,13 @@ package com.example.pages;
 
 import com.example.base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static com.example.utils.GetUtility.getText;
+import static com.example.utils.SwitchToUtility.acceptAlert;
+import static com.example.utils.SwitchToUtility.setAlertText;
 
 public class TablePage extends BasePage {
 
@@ -42,42 +47,47 @@ public class TablePage extends BasePage {
         return new LoginPage();
     }
 
-    public By editButtonForUser(String username) {
-        return By.xpath("//tr[td[contains(text(),'" + username + "')]]//button[text()='Edit']");
+    private By rowById(String id) {
+        return By.xpath("//tr[td[normalize-space()='" + id + "']]");
     }
 
-    public By editButtonForId(String id) {
-        return By.xpath("//tr[td[contains(text(),'" + id + "')]]//button[text()='Edit']");
-    }
-
-    public By deleteButtonForUser(String username) {
-        return By.xpath("//tr[td[contains(text(),'" + username + "')]]//button[text()='Delete']");
-    }
-
-    public By deleteButtonForId(String id) {
-        return By.xpath("//tr[td[contains(text(),'" + id + "')]]//button[text()='Delete']");
-    }
-
-    public TablePage clickDeleteButtonForUser(String username) {
-        scroll(deleteButtonForUser(username));
-        click(deleteButtonForUser(username));
-        return new TablePage();
-    }
-
-    public TablePage clickEditButtonForUser(String username) {
-        scroll(editButtonForUser(username));
-        click(editButtonForUser(username));
-        return new TablePage();
+    private WebElement getRowById(String id) {
+        return driver.findElement(rowById(id));
     }
 
     public String getUsernameById(String id) {
-        return driver.findElement(
-                By.xpath("//tr[td[contains(text(),'" + id + "')]]/td[1]")).getText();
+        return getRowById(id)
+                .findElement(By.xpath("./td[2]"))
+                .getText();
     }
 
     public String getStatusById(String id) {
-        return driver.findElement(
-                By.xpath("//tr[td[contains(text(),'" + id + "')]]/td[1]")).getText();
+        return getRowById(id)
+                .findElement(By.xpath("./td[3]"))
+                .getText();
+    }
+
+    public void editUser(String id, String username, String status) {
+        getRowById(id)
+                .findElement(By.xpath(".//button[text()='Edit']"))
+                .click();
+        setAlertText(username);
+        acceptAlert();
+        setAlertText(status);
+        acceptAlert();
+    }
+
+    public void deleteUser(String id) {
+        getRowById(id)
+                .findElement(By.xpath(".//button[text()='Delete']"))
+                .click();
+    }
+
+
+    public boolean userExists(String id) {
+        return !driver.findElements(
+            By.xpath("//tr[td[normalize-space()='" + id + "']]")
+        ).isEmpty();
     }
 }
 
