@@ -36,4 +36,27 @@ public class EditUserTest extends BaseTest {
         Assert.assertEquals(tablePage.getStatusById("1"), "Injured");
     }
 
+    @Test
+    public void deleteUserTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        tablePage.deleteUser("1");
+
+        Assert.assertFalse(tablePage.userExists("1"), "User with ID 1 should not exist");
+    }
+
+    @Test
+    public void deleteOneUserOnlyTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        tablePage.deleteUser("1");
+
+        Assert.assertFalse(tablePage.userExists("1"), "User with ID 1 should not exist");
+        Assert.assertTrue(tablePage.userExists("2"), "User with ID 2 should exist");
+        Assert.assertTrue(tablePage.userExists("3"), "User with ID 3 should exist");
+        Assert.assertTrue(tablePage.userExists("4"), "User with ID 4 should exist");
+    }
+
 }
