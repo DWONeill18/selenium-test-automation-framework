@@ -10,6 +10,7 @@
       <class name="com.example.tests.form.PriorityRadioButtonsTest"/>
       <class name="com.example.tests.login.LoginTest"/>
       <class name="com.example.tests.navigation.NavigationButtonsTest"/>
+      <class name="com.example.tests.table.EditUserTest"/>
     </classes>
   </test>
 </suite>
