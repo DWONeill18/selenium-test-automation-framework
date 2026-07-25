@@ -61,6 +61,17 @@ public class EditUserTest extends BaseTest {
     }
 
     @Test
+    public void editSecondUserTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        tablePage.editUser("2", "Alex", "Available");
+
+        Assert.assertEquals(tablePage.getUsernameById("2"), "Alex");
+        Assert.assertEquals(tablePage.getStatusById("2"), "Available");
+    }
+
+    @Test
     public void deleteUserTest() {
         var formPage = loginPage.login("admin", "admin123");
         var tablePage = formPage.clickTablePageButton();
