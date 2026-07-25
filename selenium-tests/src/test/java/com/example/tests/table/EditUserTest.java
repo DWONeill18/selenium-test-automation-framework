@@ -37,6 +37,30 @@ public class EditUserTest extends BaseTest {
     }
 
     @Test
+    public void editOneUserOnlyTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        String userTwoUsername = tablePage.getUsernameById("2");
+        String userTwoStatus = tablePage.getStatusById("2");
+        String userThreeUsername = tablePage.getUsernameById("3");
+        String userThreeStatus = tablePage.getStatusById("3");
+        String userFourUsername = tablePage.getUsernameById("4");
+        String userFourStatus = tablePage.getStatusById("4");
+
+        tablePage.editUser("1", "David", "Injured");
+
+        Assert.assertEquals(tablePage.getUsernameById("1"), "David");
+        Assert.assertEquals(tablePage.getStatusById("1"), "Injured");
+        Assert.assertEquals(tablePage.getUsernameById("2"), userTwoUsername);
+        Assert.assertEquals(tablePage.getStatusById("2"), userTwoStatus);
+        Assert.assertEquals(tablePage.getUsernameById("3"), userThreeUsername);
+        Assert.assertEquals(tablePage.getStatusById("3"), userThreeStatus);
+        Assert.assertEquals(tablePage.getUsernameById("4"), userFourUsername);
+        Assert.assertEquals(tablePage.getStatusById("4"), userFourStatus);
+    }
+
+    @Test
     public void deleteUserTest() {
         var formPage = loginPage.login("admin", "admin123");
         var tablePage = formPage.clickTablePageButton();
