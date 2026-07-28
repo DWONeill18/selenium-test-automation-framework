@@ -8,6 +8,7 @@ import java.util.List;
 
 import static com.example.utils.GetUtility.getText;
 import static com.example.utils.SwitchToUtility.acceptAlert;
+import static com.example.utils.SwitchToUtility.dismissAlert;
 import static com.example.utils.SwitchToUtility.setAlertText;
 
 public class TablePage extends BasePage {
@@ -75,6 +76,22 @@ public class TablePage extends BasePage {
         acceptAlert();
         setAlertText(status);
         acceptAlert();
+    }
+
+    public void cancelUsernameEdit(String id) {
+        getRowById(id)
+                .findElement(By.xpath(".//button[text()='Edit']"))
+                .click();
+        dismissAlert();
+    }
+
+    public void cancelStatusEdit(String id, String username) {
+        getRowById(id)
+                .findElement(By.xpath(".//button[text()='Edit']"))
+                .click();
+        setAlertText(username);
+        acceptAlert();
+        dismissAlert();
     }
 
     public void deleteUser(String id) {
