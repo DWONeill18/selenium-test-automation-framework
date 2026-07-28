@@ -98,6 +98,34 @@ public class EditUserTest extends BaseTest {
     }
 
     @Test
+    public void cancelUsernameEditDoesNotChangeUserTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        String originalUsername = tablePage.getUsernameById("1");
+        String originalStatus = tablePage.getStatusById("1");
+
+        tablePage.cancelUsernameEdit("1");
+
+        Assert.assertEquals(tablePage.getUsernameById("1"), originalUsername);
+        Assert.assertEquals(tablePage.getStatusById("1"), originalStatus);
+    }
+
+    @Test
+    public void cancelStatusEditDoesNotChangeUserTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        String originalUsername = tablePage.getUsernameById("1");
+        String originalStatus = tablePage.getStatusById("1");
+
+        tablePage.cancelStatusEdit("1", originalUsername);
+
+        Assert.assertEquals(tablePage.getUsernameById("1"), originalUsername);
+        Assert.assertEquals(tablePage.getStatusById("1"), originalStatus);
+    }
+
+    @Test
     public void deleteUserTest() {
         var formPage = loginPage.login("admin", "admin123");
         var tablePage = formPage.clickTablePageButton();
