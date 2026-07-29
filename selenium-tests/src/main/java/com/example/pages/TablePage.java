@@ -2,9 +2,12 @@ package com.example.pages;
 
 import com.example.base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
+import java.time.Duration;
 
 import static com.example.utils.GetUtility.getText;
 import static com.example.utils.SwitchToUtility.acceptAlert;
@@ -74,8 +77,23 @@ public class TablePage extends BasePage {
                 .click();
         setAlertText(username);
         acceptAlert();
+
+        if (!isAlertPresent()) {
+            return;
+        }
+
         setAlertText(status);
         acceptAlert();
+    }
+
+    private boolean isAlertPresent() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            wait.until(ExpectedConditions.alertIsPresent());
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public void cancelUsernameEdit(String id) {
