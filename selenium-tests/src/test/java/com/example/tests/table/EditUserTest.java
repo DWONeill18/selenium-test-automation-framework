@@ -126,6 +126,60 @@ public class EditUserTest extends BaseTest {
     }
 
     @Test
+    public void emptyUsernameEditDoesNotChangeUserTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        String originalUsername = tablePage.getUsernameById("1");
+        String originalStatus = tablePage.getStatusById("1");
+
+        tablePage.editUser("1", "", originalStatus);
+
+        Assert.assertEquals(tablePage.getUsernameById("1"), originalUsername);
+        Assert.assertEquals(tablePage.getStatusById("1"), originalStatus);
+    }
+
+    @Test
+    public void emptyStatusEditDoesNotChangeUserTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        String originalUsername = tablePage.getUsernameById("1");
+        String originalStatus = tablePage.getStatusById("1");
+
+        tablePage.editUser("1", originalUsername, "");
+
+        Assert.assertEquals(tablePage.getUsernameById("1"), originalUsername);
+        Assert.assertEquals(tablePage.getStatusById("1"), originalStatus);
+    }
+
+    @Test
+    public void whitespaceUsernameEditClearsUsernameTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        String originalStatus = tablePage.getStatusById("1");
+
+        tablePage.editUser("1", "   ", originalStatus);
+
+        Assert.assertEquals(tablePage.getUsernameById("1"), "");
+        Assert.assertEquals(tablePage.getStatusById("1"), originalStatus);
+    }
+
+    @Test
+    public void whitespaceStatusEditClearsStatusTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        String originalUsername = tablePage.getUsernameById("1");
+
+        tablePage.editUser("1", originalUsername, "   ");
+
+        Assert.assertEquals(tablePage.getUsernameById("1"), originalUsername);
+        Assert.assertEquals(tablePage.getStatusById("1"), "");
+    }
+
+    @Test
     public void deleteUserTest() {
         var formPage = loginPage.login("admin", "admin123");
         var tablePage = formPage.clickTablePageButton();
