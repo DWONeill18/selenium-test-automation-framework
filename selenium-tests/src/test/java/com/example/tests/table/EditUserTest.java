@@ -1,6 +1,7 @@
 package com.example.tests.table;
 
 import com.example.base.BaseTest;
+import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -13,6 +14,8 @@ public class EditUserTest extends BaseTest {
 
         Assert.assertTrue(tablePage.userExists("1"),
                 "User with ID 1 should exist");
+        Assert.assertFalse(tablePage.userExists("6"),
+                "User with ID 6 should not exist, it's on the next page");
     }
 
     @Test
@@ -23,6 +26,33 @@ public class EditUserTest extends BaseTest {
         String username = tablePage.getUsernameById("1");
 
         Assert.assertEquals(username, "User 1");
+    }
+
+    @Test
+    public void missingUserDoesNotExistTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        Assert.assertFalse(tablePage.userExists("999"),
+                "User with ID 999 should not exist");
+    }
+
+    @Test
+    public void editMissingUserThrowsExceptionTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        Assert.expectThrows(NoSuchElementException.class,
+                () -> tablePage.editUser("999", "David", "Injured"));
+    }
+
+    @Test
+    public void deleteMissingUserThrowsExceptionTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        Assert.expectThrows(NoSuchElementException.class,
+                () -> tablePage.deleteUser("999"));
     }
 
     @Test
