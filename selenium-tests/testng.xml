@@ -11,6 +11,7 @@
       <class name="com.example.tests.login.LoginTest"/>
       <class name="com.example.tests.navigation.NavigationButtonsTest"/>
       <class name="com.example.tests.table.EditUserTest"/>
+      <class name="com.example.tests.table.TablePaginationTest"/>
     </classes>
   </test>
 </suite>
