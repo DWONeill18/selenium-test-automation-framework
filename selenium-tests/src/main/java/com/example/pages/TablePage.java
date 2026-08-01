@@ -39,6 +39,24 @@ public class TablePage extends BasePage {
         return find(adminPageMenuButton).isEnabled();
     }
 
+    public boolean isPreviousButtonEnabled() {
+        return find(previousButton).isEnabled();
+    }
+
+    public boolean isNextButtonEnabled() {
+        return find(nextButton).isEnabled();
+    }
+
+    public void clickPreviousButton() {
+        scroll(previousButton);
+        click(previousButton);
+    }
+
+    public void clickNextButton() {
+        scroll(nextButton);
+        click(nextButton);
+    }
+
     public FormPage clickFormPageButton() {
         scroll(formPageMenuButton);
         click(formPageMenuButton);
