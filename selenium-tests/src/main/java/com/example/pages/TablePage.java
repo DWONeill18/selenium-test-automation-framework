@@ -24,6 +24,7 @@ public class TablePage extends BasePage {
 
     private By previousButton = By.xpath("//button[text()='Prev']");
     private By nextButton = By.xpath("//button[text()='Next']");
+    private By pageIndicator = By.xpath("//button[text()='Prev']/following-sibling::span");
 
     public String getTableHeaderText() {
         return getText(tablePageHeader);
@@ -45,6 +46,10 @@ public class TablePage extends BasePage {
 
     public boolean isNextButtonEnabled() {
         return find(nextButton).isEnabled();
+    }
+
+    public String getPageIndicatorText() {
+        return getText(pageIndicator);
     }
 
     public void clickPreviousButton() {
