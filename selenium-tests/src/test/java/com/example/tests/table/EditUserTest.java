@@ -102,6 +102,20 @@ public class EditUserTest extends BaseTest {
     }
 
     @Test
+    public void editUserOnSecondPageTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        tablePage.clickNextButton();
+        tablePage.editUser("6", "Taylor", "Available");
+
+        Assert.assertEquals(tablePage.getUsernameById("6"), "Taylor");
+        Assert.assertEquals(tablePage.getStatusById("6"), "Available");
+        Assert.assertFalse(tablePage.userExists("1"),
+                "First page user should not appear while still on second page");
+    }
+
+    @Test
     public void editUsernameOnlyTest() {
         var formPage = loginPage.login("admin", "admin123");
         var tablePage = formPage.clickTablePageButton();
@@ -230,6 +244,20 @@ public class EditUserTest extends BaseTest {
         Assert.assertTrue(tablePage.userExists("2"), "User with ID 2 should exist");
         Assert.assertTrue(tablePage.userExists("3"), "User with ID 3 should exist");
         Assert.assertTrue(tablePage.userExists("4"), "User with ID 4 should exist");
+    }
+
+    @Test
+    public void deleteUserOnSecondPageTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        var tablePage = formPage.clickTablePageButton();
+
+        tablePage.clickNextButton();
+        tablePage.deleteUser("6");
+
+        Assert.assertFalse(tablePage.userExists("6"), "User with ID 6 should not exist");
+        Assert.assertTrue(tablePage.userExists("7"), "User with ID 7 should still exist");
+        Assert.assertFalse(tablePage.userExists("1"),
+                "First page user should not appear while still on second page");
     }
 
 }
