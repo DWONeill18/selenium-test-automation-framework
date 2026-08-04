@@ -2,6 +2,11 @@ package com.example.pages;
 
 import com.example.base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static com.example.utils.DropDownUtility.selectByVisibleText;
 import static com.example.utils.GetUtility.getText;
@@ -17,7 +22,7 @@ public class FormPage extends BasePage {
 
     private By browserAlertCheckBox = By.cssSelector("[data-testid='toggle-alert']");
 
-    private By lowPriorityRadioButton = By.xpath("//label[contains(.,'medium')]//input[@type='radio']");
+    private By lowPriorityRadioButton = By.xpath("//label[contains(.,'low')]//input[@type='radio']");
     private By mediumPriorityRadioButton = By.xpath("//label[contains(.,'medium')]//input[@type='radio']");
     private By highPriorityRadioButton = By.xpath("//label[contains(.,'high')]//input[@type='radio']");
 
@@ -77,6 +82,29 @@ public class FormPage extends BasePage {
 
     public String getSubmissionText() {
         return getText(formSubmissionText);
+    }
+
+    public boolean isSubmissionTextDisplayed() {
+        return !driver.findElements(formSubmissionText).isEmpty();
+    }
+
+    public boolean waitUntilSubmissionTextIsHidden() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            return wait.until(ExpectedConditions.invisibilityOfElementLocated(formSubmissionText));
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public boolean isBrowserAlertPresent() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+            wait.until(ExpectedConditions.alertIsPresent());
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public boolean isBrowserAlertCheckBoxSelected() {
