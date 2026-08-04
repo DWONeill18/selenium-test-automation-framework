@@ -11,19 +11,25 @@ public class PriorityRadioButtonsTest extends BaseTest {
         var formPage = loginPage.login("admin", "admin123");
         formPage.clickLowPriorityRadioButton();
 
-        boolean isLowPrioritySelected = formPage.isLowPriorityButtonSelected();
-        Assert.assertTrue(isLowPrioritySelected,
+        Assert.assertTrue(formPage.isLowPriorityButtonSelected(),
                 "\n Low Priority RadioButton is not selected \n");
-        }
+        Assert.assertFalse(formPage.isMediumPriorityRadioButtonSelected(),
+                "\n Medium Priority RadioButton should not be selected \n");
+        Assert.assertFalse(formPage.isHighPriorityRadioButtonSelected(),
+                "\n High Priority RadioButton should not be selected \n");
+    }
 
     @Test
     public void selectMediumPriorityRadioButtonTest() {
         var formPage = loginPage.login("admin", "admin123");
         formPage.clickMediumPriorityRadioButton();
 
-        boolean isMediumPrioritySelected = formPage.isMediumPriorityRadioButtonSelected();
-        Assert.assertTrue(isMediumPrioritySelected,
+        Assert.assertTrue(formPage.isMediumPriorityRadioButtonSelected(),
                 "\n Medium Priority RadioButton is not selected \n");
+        Assert.assertFalse(formPage.isLowPriorityButtonSelected(),
+                "\n Low Priority RadioButton should not be selected \n");
+        Assert.assertFalse(formPage.isHighPriorityRadioButtonSelected(),
+                "\n High Priority RadioButton should not be selected \n");
     }
 
     @Test
@@ -31,8 +37,11 @@ public class PriorityRadioButtonsTest extends BaseTest {
         var formPage = loginPage.login("admin", "admin123");
         formPage.clickHighPriorityRadioButton();
 
-        boolean isHighPrioritySelected = formPage.isHighPriorityRadioButtonSelected();
-        Assert.assertTrue(isHighPrioritySelected,
+        Assert.assertTrue(formPage.isHighPriorityRadioButtonSelected(),
                 "\n High Priority RadioButton is not selected \n");
+        Assert.assertFalse(formPage.isLowPriorityButtonSelected(),
+                "\n Low Priority RadioButton should not be selected \n");
+        Assert.assertFalse(formPage.isMediumPriorityRadioButtonSelected(),
+                "\n Medium Priority RadioButton should not be selected \n");
     }
 }
