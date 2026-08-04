@@ -31,5 +31,37 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
+    @Test
+    public void blankUsernameAndPasswordLoginTest(){
+        loginPage.login("", "");
+
+        Assert.assertEquals(loginPage.getErrorMessage(), "Login failed");
+        Assert.assertEquals(loginPage.getLoginHeaderText(), "Login");
+    }
+
+    @Test
+    public void validUsernameWrongPasswordLoginTest(){
+        loginPage.login("admin", "wrong-password");
+
+        Assert.assertEquals(loginPage.getErrorMessage(), "Login failed");
+        Assert.assertEquals(loginPage.getLoginHeaderText(), "Login");
+    }
+
+    @Test
+    public void wrongUsernameValidPasswordLoginTest(){
+        loginPage.login("wrong-user", "admin123");
+
+        Assert.assertEquals(loginPage.getErrorMessage(), "Login failed");
+        Assert.assertEquals(loginPage.getLoginHeaderText(), "Login");
+    }
+
+    @Test
+    public void whitespacePaddedCredentialsLoginTest(){
+        loginPage.login(" admin ", " admin123 ");
+
+        Assert.assertEquals(loginPage.getErrorMessage(), "Login failed");
+        Assert.assertEquals(loginPage.getLoginHeaderText(), "Login");
+    }
+
 
 }
