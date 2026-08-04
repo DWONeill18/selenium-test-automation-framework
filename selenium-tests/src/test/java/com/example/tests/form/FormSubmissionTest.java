@@ -7,13 +7,27 @@ import org.testng.annotations.Test;
 public class FormSubmissionTest extends BaseTest {
 
     @Test
-    public void formSubmissionTest() {
-        var  formPage = loginPage.login("admin", "admin123");
+    public void submitWithBrowserAlertDisabledDoesNotShowAlertTest() {
+        var formPage = loginPage.login("admin", "admin123");
         formPage.unclickBrowserAlertCheckBox();
+
         formPage.clickSubmitButton();
 
-        String submissionText = formPage.getSubmissionText();
-        String actualSubmissionText = "Form submitted successfully";
-        Assert.assertEquals(submissionText, actualSubmissionText, "\n Form submission text is incorrect \n");
+        Assert.assertFalse(formPage.isBrowserAlertPresent(),
+                "Browser alert should not appear when alert checkbox is disabled");
+        Assert.assertEquals(formPage.getSubmissionText(), "Form submitted successfully");
+    }
+
+    @Test
+    public void submissionMessageDisappearsAfterDelayTest() {
+        var formPage = loginPage.login("admin", "admin123");
+        formPage.unclickBrowserAlertCheckBox();
+
+        formPage.clickSubmitButton();
+
+        Assert.assertTrue(formPage.isSubmissionTextDisplayed(),
+                "Submission message should be visible immediately after submitting");
+        Assert.assertTrue(formPage.waitUntilSubmissionTextIsHidden(),
+                "Submission message should disappear after the configured delay");
     }
 }
