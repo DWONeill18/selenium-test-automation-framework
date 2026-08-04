@@ -40,6 +40,28 @@ public class NavigationButtonsTest extends BaseTest {
     }
 
     @Test
+    public void tableAdminPageButtonIsDisabledForTesterTest() {
+        var formPage = loginAsTester();
+
+        var tablePage = formPage.clickTablePageButton();
+        assertOnTablePage(tablePage);
+        assertAdminPageButtonDisabled(tablePage);
+    }
+
+    @Test
+    public void testerDoesNotInheritAdminAccessAfterAdminLogoutTest() {
+        var adminFormPage = loginAsAdmin();
+        assertAdminPageButtonEnabled(adminFormPage);
+
+        var loggedOutPage = adminFormPage.clickLogoutButton();
+        assertOnLoginPage(loggedOutPage);
+
+        var testerFormPage = loggedOutPage.login(TESTER_USERNAME, TESTER_PASSWORD);
+        assertOnFormPage(testerFormPage);
+        assertAdminPageButtonDisabled(testerFormPage);
+    }
+
+    @Test
     public void formPageToTablePageToFormPageTest() {
         var formPage = loginAsAdmin();
 
@@ -134,6 +156,11 @@ public class NavigationButtonsTest extends BaseTest {
 
     private void assertAdminPageButtonDisabled(FormPage formPage) {
         Assert.assertFalse(formPage.isAdminPageButtonEnabled(),
+                "Admin page button should be disabled for tester user");
+    }
+
+    private void assertAdminPageButtonDisabled(TablePage tablePage) {
+        Assert.assertFalse(tablePage.isAdminPageButtonEnabled(),
                 "Admin page button should be disabled for tester user");
     }
 }
