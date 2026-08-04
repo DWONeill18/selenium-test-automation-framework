@@ -5,11 +5,13 @@
       <class name="com.example.tests.form.BrowserAlertCheckBoxTest"/>
       <class name="com.example.tests.form.BrowserAlertTest"/>
       <class name="com.example.tests.form.CountryDropDownTest"/>
+      <class name="com.example.tests.form.FormDefaultsTest"/>
       <class name="com.example.tests.form.FormSubmissionTest"/>
       <class name="com.example.tests.form.HobbyCheckBoxTest"/>
       <class name="com.example.tests.form.PriorityRadioButtonsTest"/>
       <class name="com.example.tests.login.LoginTest"/>
       <class name="com.example.tests.navigation.NavigationButtonsTest"/>
+      <class name="com.example.tests.screenshot.CaptureFailedScreenshotTest"/>
       <class name="com.example.tests.table.EditUserTest"/>
       <class name="com.example.tests.table.TablePaginationTest"/>
     </classes>
