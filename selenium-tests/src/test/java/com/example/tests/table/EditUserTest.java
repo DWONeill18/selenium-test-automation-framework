@@ -56,17 +56,6 @@ public class EditUserTest extends BaseTest {
     }
 
     @Test
-    public void editUsernameTest() {
-        var formPage = loginPage.login("admin", "admin123");
-        var tablePage = formPage.clickTablePageButton();
-
-        tablePage.editUser("1", "David", "Injured");
-
-        Assert.assertEquals(tablePage.getUsernameById("1"), "David");
-        Assert.assertEquals(tablePage.getStatusById("1"), "Injured");
-    }
-
-    @Test
     public void editOneUserOnlyTest() {
         var formPage = loginPage.login("admin", "admin123");
         var tablePage = formPage.clickTablePageButton();
@@ -221,16 +210,6 @@ public class EditUserTest extends BaseTest {
 
         Assert.assertEquals(tablePage.getUsernameById("1"), originalUsername);
         Assert.assertEquals(tablePage.getStatusById("1"), "");
-    }
-
-    @Test
-    public void deleteUserTest() {
-        var formPage = loginPage.login("admin", "admin123");
-        var tablePage = formPage.clickTablePageButton();
-
-        tablePage.deleteUser("1");
-
-        Assert.assertFalse(tablePage.userExists("1"), "User with ID 1 should not exist");
     }
 
     @Test

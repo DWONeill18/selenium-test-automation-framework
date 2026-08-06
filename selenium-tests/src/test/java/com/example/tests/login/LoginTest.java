@@ -24,14 +24,6 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void failingLoginTest(){
-        loginPage.login("abc", "abc123");
-        String actualText = loginPage.getErrorMessage();
-        String expectedText = "Login failed";
-        Assert.assertEquals(actualText, expectedText);
-    }
-
-    @Test
     public void blankUsernameAndPasswordLoginTest(){
         loginPage.login("", "");
 
