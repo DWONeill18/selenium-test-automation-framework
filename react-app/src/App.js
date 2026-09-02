@@ -43,6 +43,7 @@ export default function App() {
       <nav style={{ display: "flex", gap: 10, marginBottom: 16 }}>
         <button data-testid="nav-form" onClick={() => setPage("form")} style={navBtn}>Form</button>
         <button data-testid="nav-table" onClick={() => setPage("table")} style={navBtn}>Table</button>
+        <button id="nav-search" data-testid="nav-search" onClick={() => setPage("search")} style={navBtn}>Search</button>
         <button
           data-testid="nav-admin"
           onClick={() => setPage("admin")}
@@ -56,6 +57,7 @@ export default function App() {
 
       {page === "form" && <FormPage />}
       {page === "table" && <TablePage />}
+      {page === "search" && <SearchPage />}
       {page === "admin" && <AdminPage />}
     </div>
   );
@@ -292,6 +294,81 @@ function TablePage() {
           <span>{pageIndex+1}/{totalPages}</span>
           <button style={btn} disabled={pageIndex===totalPages-1} onClick={()=>setPageIndex(p=>p+1)}>Next</button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+
+function SearchPage() {
+  const items = [
+    { id: 1, name: "Selenium WebDriver", category: "Testing", status: "Active" },
+    { id: 2, name: "Java", category: "Programming", status: "Active" },
+    { id: 3, name: "React", category: "Frontend", status: "Active" },
+    { id: 4, name: "TestNG", category: "Testing", status: "Active" },
+    { id: 5, name: "Maven", category: "Build Tool", status: "Active" },
+    { id: 6, name: "Docker", category: "DevOps", status: "Inactive" },
+    { id: 7, name: "GitHub Actions", category: "CI/CD", status: "Active" },
+    { id: 8, name: "Page Object Model", category: "Testing", status: "Active" },
+  ];
+
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [status, setStatus] = useState("All");
+  const [results, setResults] = useState(items);
+
+  const categories = ["All", ...new Set(items.map(item => item.category))];
+
+  const performSearch = () => {
+    const term = query.trim().toLowerCase();
+    setResults(items.filter(item =>
+      (term === "" || item.name.toLowerCase().includes(term) || item.category.toLowerCase().includes(term)) &&
+      (category === "All" || item.category === category) &&
+      (status === "All" || item.status === status)
+    ));
+  };
+
+  const clearSearch = () => {
+    setQuery(""); setCategory("All"); setStatus("All"); setResults(items);
+  };
+
+  const card = { padding: 16, border: `1px solid ${theme.border}`, borderRadius: 8, background: theme.panel, marginBottom: 16 };
+  const cellStyle = { padding: "12px 10px", textAlign: "left" };
+
+  return (
+    <div style={{ maxWidth: 850 }}>
+      <h2>Search</h2>
+      <div style={card}>
+        <h4>Practice Search Form</h4>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <label htmlFor="search-input">Search term</label>
+          <input id="search-input" data-testid="search-input" placeholder="Search by name or category" value={query} onChange={e => setQuery(e.target.value)} style={inputStyle} />
+
+          <label htmlFor="category-select">Category</label>
+          <select id="category-select" data-testid="category-select" value={category} onChange={e => setCategory(e.target.value)} style={inputStyle}>
+            {categories.map(value => <option key={value} value={value}>{value}</option>)}
+          </select>
+
+          <label htmlFor="status-select">Status</label>
+          <select id="status-select" data-testid="status-select" value={status} onChange={e => setStatus(e.target.value)} style={inputStyle}>
+            <option value="All">All</option><option value="Active">Active</option><option value="Inactive">Inactive</option>
+          </select>
+
+          <div style={{ display: "flex", gap: 8 }}>
+            <button id="search-button" data-testid="search-button" onClick={performSearch} style={primaryBtn}>Search</button>
+            <button id="clear-search-button" data-testid="clear-search-button" onClick={clearSearch} style={navBtn}>Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="search-results" data-testid="search-results" style={card}>
+        <h4 id="result-count" data-testid="result-count">Results ({results.length})</h4>
+        {results.length === 0 ? <div id="no-results" data-testid="no-results">No results found</div> : (
+          <table id="search-results-table" data-testid="search-results-table" style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead><tr style={{ color: theme.muted, background: theme.panel2 }}><th style={cellStyle}>ID</th><th style={cellStyle}>Name</th><th style={cellStyle}>Category</th><th style={cellStyle}>Status</th></tr></thead>
+            <tbody>{results.map(item => <tr key={item.id} id={`search-result-${item.id}`} data-testid={`search-result-${item.id}`} style={{ borderTop: `1px solid ${theme.border}` }}><td style={cellStyle}>{item.id}</td><td style={cellStyle}>{item.name}</td><td style={cellStyle}>{item.category}</td><td style={cellStyle}>{item.status}</td></tr>)}</tbody>
+          </table>
+        )}
       </div>
     </div>
   );
