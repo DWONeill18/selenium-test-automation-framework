@@ -16,6 +16,7 @@ public class FormPage extends BasePage {
     private By adminPageMenuButton = By.cssSelector("[data-testid='nav-admin']");
     private By logoutMenuButton = By.cssSelector("[data-testid='logout']");
     private By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
+    private By searchPageMenuButton = By.cssSelector("[data-testid='nav-search']");
     private By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
 
     private By formHeader = By.xpath("//*[@id=\"root\"]/div/div/h2");
@@ -52,6 +53,12 @@ public class FormPage extends BasePage {
         scroll(tablePageMenuButton);
         click(tablePageMenuButton);
         return new TablePage();
+    }
+
+    public SearchPage clickSearchPageButton() {
+        scroll(searchPageMenuButton);
+        click(searchPageMenuButton);
+        return new SearchPage();
     }
 
     public LoginPage clickLogoutButton() {
