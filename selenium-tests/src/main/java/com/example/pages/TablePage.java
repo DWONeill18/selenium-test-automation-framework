@@ -18,6 +18,7 @@ public class TablePage extends BasePage {
 
     private By adminPageMenuButton = By.cssSelector("[data-testid='nav-admin']");
     private By logoutMenuButton = By.cssSelector("[data-testid='logout']");
+    private By searchPageMenuButton = By.cssSelector("[data-testid='nav-search']");
     private By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
 
     private By tablePageHeader = By.xpath("//*[@id=\"root\"]/div/div/h2");
@@ -60,6 +61,12 @@ public class TablePage extends BasePage {
     public void clickNextButton() {
         scroll(nextButton);
         click(nextButton);
+    }
+
+    public SearchPage clickSearchPageButton() {
+        scroll(searchPageMenuButton);
+        click(searchPageMenuButton);
+        return new SearchPage();
     }
 
     public FormPage clickFormPageButton() {
