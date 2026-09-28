@@ -20,6 +20,8 @@ It provides:
   - Country dropdown
   - Submission success message
 - A table page with paginated sample user data
+- A search page for exercising search input and result behavior
+- User editing from the table page
 - An admin page that is available only to the `admin` user
 - Stable `data-testid` selectors for automation-friendly UI targeting
 
@@ -115,6 +117,7 @@ The suite follows the Page Object Model:
   - `FormPage`
   - `TablePage`
   - `AdminPage`
+  - `SearchPage`
 - Utility classes in `src/main/java/com/example/utils/` provide reusable dropdown, alert, and driver helper methods.
 - Test classes in `src/test/java/com/example/tests/` are grouped by feature area.
 
@@ -132,6 +135,8 @@ The TestNG suite covers:
 - Checkbox selection behavior
 - Radio button selection behavior
 - Country dropdown selection
+- Search behavior
+- Table pagination and user editing
 - Failure screenshot capture
 
 The suite is configured through:
