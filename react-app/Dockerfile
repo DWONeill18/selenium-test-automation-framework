@@ -1,4 +1,4 @@
-FROM node:current-alpine3.24 AS build
+FROM node:24-alpine3.24 AS build
 LABEL authors="David O'Neill"
 
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:1.31.3-alpine3.24
+FROM nginx:stable-alpine3.24
 
 COPY --from=build /app/build /usr/share/nginx/html
 
