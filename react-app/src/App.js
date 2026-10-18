@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const theme = {
   bg: "#0b0f1a",
@@ -44,6 +44,7 @@ export default function App() {
         <button data-testid="nav-form" onClick={() => setPage("form")} style={navBtn}>Form</button>
         <button data-testid="nav-table" onClick={() => setPage("table")} style={navBtn}>Table</button>
         <button id="nav-search" data-testid="nav-search" onClick={() => setPage("search")} style={navBtn}>Search</button>
+        <button data-testid="nav-progress" onClick={() => setPage("progress")} style={navBtn}>Progress</button>
         <button
           data-testid="nav-admin"
           onClick={() => setPage("admin")}
@@ -58,6 +59,7 @@ export default function App() {
       {page === "form" && <FormPage />}
       {page === "table" && <TablePage />}
       {page === "search" && <SearchPage />}
+      {page === "progress" && <ProgressPage />}
       {page === "admin" && <AdminPage />}
     </div>
   );
@@ -383,4 +385,52 @@ function AdminPage() {
   );
 }
 
+function ProgressPage() {
+  const duration = 25_000;
+  const [startedAt, setStartedAt] = useState(null);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (startedAt === null) return undefined;
+
+    const updateProgress = () => {
+      const nextProgress = Math.min(100, Math.floor(((Date.now() - startedAt) / duration) * 100));
+      setProgress(nextProgress);
+      if (nextProgress >= 100) setStartedAt(null);
+    };
+
+    const intervalId = window.setInterval(updateProgress, 100);
+    return () => window.clearInterval(intervalId);
+  }, [startedAt]);
+
+  const start = () => {
+    setProgress(0);
+    setStartedAt(Date.now());
+  };
+
+  const isRunning = startedAt !== null;
+
+  return (
+    <section style={{ maxWidth: 600 }}>
+      <h2>Progress</h2>
+      <div style={{ padding: 20, border: `1px solid ${theme.border}`, borderRadius: 8, background: theme.panel }}>
+        <div
+          role="progressbar"
+          aria-label="Progress"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow={progress}
+          data-testid="progress-bar"
+          style={{ height: 24, overflow: "hidden", borderRadius: 12, background: theme.panel2, border: `1px solid ${theme.border}` }}
+        >
+          <div style={{ width: `${progress}%`, height: "100%", borderRadius: 12, background: theme.blue, transition: "width 100ms linear" }} />
+        </div>
+        <p data-testid="progress-value" aria-live="polite" style={{ textAlign: "center", fontSize: 24, margin: "16px 0" }}>{progress}%</p>
+        <button data-testid="start-progress" onClick={start} disabled={isRunning} style={{ ...primaryBtn, width: "100%", opacity: isRunning ? 0.6 : 1 }}>
+          {progress === 100 ? "Start again" : isRunning ? "In progress…" : "Start"}
+        </button>
+      </div>
+    </section>
+  );
+}
 
