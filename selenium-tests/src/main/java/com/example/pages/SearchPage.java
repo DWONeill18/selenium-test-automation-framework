@@ -35,6 +35,7 @@ public class SearchPage extends BasePage {
     private By logoutMenuButton = By.cssSelector("[data-testid='logout']");
     private By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
     private By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
+    private By progressPageMenuButton = By.cssSelector("[data-testid='nav-progress']");
 
     public String getSearchPageHeader() {
         return getText(pageHeader);
@@ -64,6 +65,12 @@ public class SearchPage extends BasePage {
         scroll(formPageMenuButton);
         click(formPageMenuButton);
         return new FormPage();
+    }
+
+    public ProgressPage clickProgressPageButton() {
+        scroll(progressPageMenuButton);
+        click(progressPageMenuButton);
+        return new ProgressPage();
     }
 
     public LoginPage clickLogoutButton() {

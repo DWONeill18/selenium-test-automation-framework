@@ -11,6 +11,7 @@ public class AdminPage extends BasePage {
     private By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
     private By searchPageMenuButton = By.cssSelector("[data-testid='nav-search']");
     private By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
+    private By progressPageMenuButton = By.cssSelector("[data-testid='nav-progress']");
 
     private By adminPageHeader = By.xpath("//*[@id=\"root\"]/div/div/h2");
     private By adminRestrictedText = By.xpath("//*[@id='root']/div/div/div");
@@ -39,6 +40,12 @@ public class AdminPage extends BasePage {
         scroll(formPageMenuButton);
         click(formPageMenuButton);
         return new FormPage();
+    }
+
+    public ProgressPage clickProgressPageButton() {
+        scroll(progressPageMenuButton);
+        click(progressPageMenuButton);
+        return new ProgressPage();
     }
 
     public LoginPage clickLogoutButton() {
