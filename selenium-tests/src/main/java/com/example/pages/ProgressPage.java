@@ -4,20 +4,23 @@ import com.example.base.BasePage;
 import org.openqa.selenium.By;
 
 import static com.example.utils.GetUtility.getText;
+import static com.example.utils.WaitUtility.fluentWaitUntilIntermediatePercentage;
+import static com.example.utils.WaitUtility.fluentWaitUntilText;
+import static com.example.utils.WaitUtility.fluentWaitUntilTextContains;
+import static com.example.utils.WaitUtility.fluentWaitUntilVisible;
 
 public class ProgressPage extends BasePage {
 
-    private By progressHeader = By.xpath("/html/body/div/div/section/h2");
+    private final By progressHeader = By.xpath("/html/body/div/div/section/h2");
 
-    private By startProgressButton = By.cssSelector("[data-testid='start-progress']");
-    private By progressValue = By.cssSelector("[data-testid='progress-value']");
-    private By progressBar = By.cssSelector("[data-testid='progress-bar']");
+    private final By startProgressButton = By.cssSelector("[data-testid='start-progress']");
+    private final By progressValue = By.cssSelector("[data-testid='progress-value']");
 
-    private By adminPageMenuButton = By.cssSelector("[data-testid='nav-admin']");
-    private By logoutMenuButton = By.cssSelector("[data-testid='logout']");
-    private By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
-    private By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
-    private By searchPageMenuButton = By.cssSelector("[data-testid='nav-search']");
+    private final By adminPageMenuButton = By.cssSelector("[data-testid='nav-admin']");
+    private final By logoutMenuButton = By.cssSelector("[data-testid='logout']");
+    private final By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
+    private final By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
+    private final By searchPageMenuButton = By.cssSelector("[data-testid='nav-search']");
 
 
     public String getProgressPageHeader() {
@@ -63,7 +66,35 @@ public class ProgressPage extends BasePage {
         click(startProgressButton);
     }
 
-    public String getProgressValue() {
+    public String getStartButtonTextBeforeClick() {
+        return getText(startProgressButton);
+    }
+
+    public String getStartButtonTextAfterClick() {
+        return getText(startProgressButton);
+    }
+
+    public String getStartButtonTextAt100Percent() {
+        return getText(startProgressButton);
+    }
+
+    public String waitForStartButtonTextToContain(int timeoutInSeconds, String text) {
+        return fluentWaitUntilTextContains(timeoutInSeconds, startProgressButton, text);
+    }
+
+    public String getProgressValue(int waitInSeconds) {
+        fluentWaitUntilVisible(waitInSeconds, progressValue);
         return getText(progressValue);
     }
+
+    public String waitForProgressToComplete(int timeoutInSeconds) {
+        fluentWaitUntilText(timeoutInSeconds, progressValue, "100%");
+        return getText(progressValue);
+    }
+
+    public String waitForIntermediateProgress(int timeoutInSeconds) {
+        return fluentWaitUntilIntermediatePercentage(timeoutInSeconds, progressValue);
+    }
 }
+
+
