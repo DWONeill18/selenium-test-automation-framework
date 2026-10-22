@@ -1,11 +1,8 @@
 package com.example.tests.navigation;
 
 import com.example.base.BaseTest;
-import com.example.pages.AdminPage;
-import com.example.pages.FormPage;
-import com.example.pages.LoginPage;
-import com.example.pages.SearchPage;
-import com.example.pages.TablePage;
+import com.example.pages.*;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -19,6 +16,7 @@ public class NavigationButtonsTest extends BaseTest {
     private static final String TABLE_HEADER_TEXT = "Table";
     private static final String SEARCH_HEADER_TEXT = "Search";
     private static final String ADMIN_HEADER_TEXT = "Admin Page";
+    private static final String PROGRESS_HEADER_TEXT = "Progress";
     private static final String ADMIN_RESTRICTED_TEXT = "Restricted admin content";
     private static final String LOGIN_HEADER_TEXT = "Login";
 
@@ -42,6 +40,16 @@ public class NavigationButtonsTest extends BaseTest {
     }
 
     @Test
+    public void testerCannotSeeAdminContentTest() {
+        var formPage = loginAsTester();
+        assertAdminPageButtonDisabled(formPage);
+
+        Assert.assertTrue(basePage.driver.findElements(
+                        By.xpath("//*[normalize-space()='Restricted admin content']")).isEmpty(),
+                "Restricted admin content should not be present for a tester");
+    }
+
+    @Test
     public void tableAdminPageButtonIsDisabledForTesterTest() {
         var formPage = loginAsTester();
 
@@ -60,6 +68,15 @@ public class NavigationButtonsTest extends BaseTest {
     }
 
     @Test
+    public void progressAdminPageButtonIsDisabledForTesterTest() {
+        var formPage = loginAsTester();
+
+        var progressPage = formPage.clickProgressPageButton();
+        assertOnProgressPage(progressPage);
+        assertAdminPageButtonDisabled(progressPage);
+    }
+
+    @Test
     public void testerDoesNotInheritAdminAccessAfterAdminLogoutTest() {
         var adminFormPage = loginAsAdmin();
         assertAdminPageButtonEnabled(adminFormPage);
@@ -70,6 +87,32 @@ public class NavigationButtonsTest extends BaseTest {
         var testerFormPage = loggedOutPage.login(TESTER_USERNAME, TESTER_PASSWORD);
         assertOnFormPage(testerFormPage);
         assertAdminPageButtonDisabled(testerFormPage);
+    }
+
+    @Test
+    public void testerCanLoginAsAdminAfterLogoutInSameSessionTest() {
+        var testerFormPage = loginAsTester();
+        assertAdminPageButtonDisabled(testerFormPage);
+
+        var loginPage = testerFormPage.clickLogoutButton();
+        assertOnLoginPage(loginPage);
+
+        var adminFormPage = loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
+        assertOnFormPage(adminFormPage);
+        assertAdminPageButtonEnabled(adminFormPage);
+
+        var adminPage = adminFormPage.clickAdminPageButton();
+        assertOnAdminPage(adminPage);
+    }
+
+    @Test
+    public void logoutRemainsEffectiveAfterRefreshingPageTest() {
+        var formPage = loginAsAdmin();
+        var loginPage = formPage.clickLogoutButton();
+        assertOnLoginPage(loginPage);
+
+        basePage.driver.navigate().refresh();
+        assertOnLoginPage(new LoginPage());
     }
 
     @Test
@@ -91,6 +134,17 @@ public class NavigationButtonsTest extends BaseTest {
         assertOnSearchPage(searchPage);
 
         var returningFormPage = searchPage.clickFormPageButton();
+        assertOnFormPage(returningFormPage);
+    }
+
+    @Test
+    public void formPageToProgressPageToFormPageTest() {
+        var formPage = loginAsAdmin();
+
+        var progressPage = formPage.clickProgressPageButton();
+        assertOnProgressPage(progressPage);
+
+        var returningFormPage = progressPage.clickFormPageButton();
         assertOnFormPage(returningFormPage);
     }
 
@@ -124,6 +178,21 @@ public class NavigationButtonsTest extends BaseTest {
     }
 
     @Test
+    public void tablePageToProgressPageToTablePageTest() {
+        var formPage = loginAsAdmin();
+
+        var tablePage = formPage.clickTablePageButton();
+        assertOnTablePage(tablePage);
+        assertAdminPageButtonEnabled(tablePage);
+
+        var progressPage = tablePage.clickProgressPageButton();
+        assertOnProgressPage(progressPage);
+
+        var returningTablePage = progressPage.clickTablePageButton();
+        assertOnTablePage(returningTablePage);
+    }
+
+    @Test
     public void searchPageToAdminPageToSearchPageTest() {
         var formPage = loginAsAdmin();
 
@@ -136,6 +205,36 @@ public class NavigationButtonsTest extends BaseTest {
 
         var returningSearchPage = adminPage.clickSearchPageButton();
         assertOnSearchPage(returningSearchPage);
+    }
+
+    @Test
+    public void searchPageToProgressPageToSearchPageTest() {
+        var formPage = loginAsAdmin();
+
+        var searchPage = formPage.clickSearchPageButton();
+        assertOnSearchPage(searchPage);
+        assertAdminPageButtonEnabled(searchPage);
+
+        var progressPage = searchPage.clickProgressPageButton();
+        assertOnProgressPage(progressPage);
+
+        var returningSearchPage = progressPage.clickSearchPageButton();
+        assertOnSearchPage(returningSearchPage);
+    }
+
+    @Test
+    public void progressPageToAdminPageToProgressPageTest() {
+        var formPage = loginAsAdmin();
+
+        var progressPage = formPage.clickProgressPageButton();
+        assertOnProgressPage(progressPage);
+        assertAdminPageButtonEnabled(progressPage);
+
+        var adminPage = progressPage.clickAdminPageButton();
+        assertOnAdminPage(adminPage);
+
+        var returningProgressPage = adminPage.clickProgressPageButton();
+        assertOnProgressPage(returningProgressPage);
     }
 
     @Test
@@ -181,6 +280,17 @@ public class NavigationButtonsTest extends BaseTest {
         assertOnLoginPage(loginPage);
     }
 
+    @Test
+    public void logoutFromProgressPage() {
+        var formPage = loginAsAdmin();
+
+        var progressPage = formPage.clickProgressPageButton();
+        assertOnProgressPage(progressPage);
+
+        var loginPage = progressPage.clickLogoutButton();
+        assertOnLoginPage(loginPage);
+    }
+
     private FormPage loginAsAdmin() {
         return loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
@@ -199,6 +309,10 @@ public class NavigationButtonsTest extends BaseTest {
 
     private void assertOnSearchPage(SearchPage searchPage) {
         Assert.assertEquals(searchPage.getSearchPageHeader(), SEARCH_HEADER_TEXT);
+    }
+
+    private void assertOnProgressPage(ProgressPage progressPage) {
+        Assert.assertEquals(progressPage.getProgressPageHeader(), PROGRESS_HEADER_TEXT);
     }
 
     private void assertOnAdminPage(AdminPage adminPage) {
@@ -225,6 +339,11 @@ public class NavigationButtonsTest extends BaseTest {
                 "Admin page button should be enabled for admin user");
     }
 
+    private void assertAdminPageButtonEnabled(ProgressPage progressPage) {
+        Assert.assertTrue(progressPage.isAdminPageButtonEnabled(),
+                "Admin page button should be enabled for admin user");
+    }
+
     private void assertAdminPageButtonDisabled(FormPage formPage) {
         Assert.assertFalse(formPage.isAdminPageButtonEnabled(),
                 "Admin page button should be disabled for tester user");
@@ -237,6 +356,11 @@ public class NavigationButtonsTest extends BaseTest {
 
     private void assertAdminPageButtonDisabled(SearchPage searchPage) {
         Assert.assertFalse(searchPage.isAdminPageButtonEnabled(),
+                "Admin page button should be disabled for tester user");
+    }
+
+    private void assertAdminPageButtonDisabled(ProgressPage progressPage) {
+        Assert.assertFalse(progressPage.isAdminPageButtonEnabled(),
                 "Admin page button should be disabled for tester user");
     }
 }
