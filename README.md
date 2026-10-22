@@ -20,12 +20,13 @@ It provides:
   - Country dropdown
   - Submission success message
 - A table page with paginated sample user data
-- A search page for exercising search input and result behavior
-- User editing from the table page
+- A search page with term, category, and status filters
+- A table page with in-memory user editing and deletion
+- A progress page with a 25-second progress bar that can be restarted
 - An admin page that is available only to the `admin` user
 - Stable `data-testid` selectors for automation-friendly UI targeting
 
-The app gives the Selenium framework several UI patterns to exercise without needing a backend service.
+The app gives the Selenium framework several UI patterns to exercise without needing a backend service. Login credentials and data are hard-coded in the client for practice; this app does not provide real authentication or persistence.
 
 ## Repository Structure
 
@@ -54,7 +55,7 @@ The app gives the Selenium framework several UI patterns to exercise without nee
 - npm
 - Java 21 for CI parity, although the Maven compiler target is Java 17
 - Maven
-- Google Chrome
+- Google Chrome (Selenium Manager resolves the matching ChromeDriver)
 - Docker, if building or running the container image locally
 
 ## Run the Application Locally
@@ -118,7 +119,8 @@ The suite follows the Page Object Model:
   - `TablePage`
   - `AdminPage`
   - `SearchPage`
-- Utility classes in `src/main/java/com/example/utils/` provide reusable dropdown, alert, and driver helper methods.
+  - `ProgressPage`
+- Utility classes in `src/main/java/com/example/utils/` provide reusable wait, dropdown, alert/switching, and driver helper methods.
 - Test classes in `src/test/java/com/example/tests/` are grouped by feature area.
 
 ### Test Coverage
@@ -129,7 +131,7 @@ The TestNG suite covers:
 - Valid tester login
 - Invalid login error handling
 - Role-based admin navigation
-- Navigation between form, table, admin, and login pages
+- Navigation between form, table, search, progress, admin, and login pages
 - Form submission success messaging
 - Browser alert text and acceptance
 - Checkbox selection behavior
@@ -137,6 +139,7 @@ The TestNG suite covers:
 - Country dropdown selection
 - Search behavior
 - Table pagination and user editing
+- Progress page behavior, including intermediate progress, completion, and restart
 - Failure screenshot capture
 
 The suite is configured through:
@@ -215,8 +218,8 @@ Pull request builds validate the Docker image build but do not push images.
 
 The Dockerfile uses a multi-stage build:
 
-1. `node:current-alpine3.24` builds the React production bundle.
-2. `nginx:1.30.3-alpine3.23` serves the compiled static site.
+1. `node:24-alpine3.24` builds the React production bundle.
+2. `nginx:stable-alpine3.24` serves the compiled static site.
 
 The container exposes port `80`.
 
@@ -246,7 +249,7 @@ The CI pipeline publishes images to Docker Hub:
 dwoneill18/selenium-webapp
 ```
 
-Each successful non-PR pipeline publishes these tags:
+Each successful push or published release pipeline publishes these tags (pull requests build the image without pushing):
 
 - `latest`
 - Git commit SHA, for traceability to the exact source revision
