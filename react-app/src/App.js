@@ -45,6 +45,7 @@ export default function App() {
         <button data-testid="nav-table" onClick={() => setPage("table")} style={navBtn}>Table</button>
         <button id="nav-search" data-testid="nav-search" onClick={() => setPage("search")} style={navBtn}>Search</button>
         <button data-testid="nav-progress" onClick={() => setPage("progress")} style={navBtn}>Progress</button>
+        <button data-testid="nav-frames" onClick={() => setPage("frames")} style={navBtn}>Frames</button>
         <button
           data-testid="nav-admin"
           onClick={() => setPage("admin")}
@@ -60,6 +61,7 @@ export default function App() {
       {page === "table" && <TablePage />}
       {page === "search" && <SearchPage />}
       {page === "progress" && <ProgressPage />}
+      {page === "frames" && <FramesPage />}
       {page === "admin" && <AdminPage />}
     </div>
   );
@@ -430,6 +432,40 @@ function ProgressPage() {
           {progress === 100 ? "Start again" : isRunning ? "In progress…" : "Start"}
         </button>
       </div>
+    </section>
+  );
+}
+
+function FramesPage() {
+  const frameStyle = {
+    display: "block",
+    width: "100%",
+    minHeight: 120,
+    border: `1px solid ${theme.border}`,
+    borderRadius: 8,
+    background: theme.panel,
+  };
+
+  const frameDocument = (text, background) => `<!doctype html>
+    <html lang="en">
+      <head><meta charset="utf-8"><style>
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 120px; padding: 24px; display: grid; place-items: center; background: ${background}; color: #e5e7eb; font: 600 18px system-ui, sans-serif; }
+      </style></head>
+      <body><p>${text}</p></body>
+    </html>`;
+
+  return (
+    <section style={{ maxWidth: 800 }}>
+      <h2>Frames</h2>
+      <main data-testid="main-frame" style={{ padding: 20, border: `1px solid ${theme.border}`, borderRadius: 10, background: theme.panel }}>
+        <h3 style={{ marginTop: 0 }}>Main window frame</h3>
+        <p>This text is in the original page, outside the child frames.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+          <iframe title="Frame One" data-testid="frame-one" style={frameStyle} srcDoc={frameDocument("Text from Frame One", "#172554")} />
+          <iframe title="Frame Two" data-testid="frame-two" style={frameStyle} srcDoc={frameDocument("Text from Frame Two", "#3f1d2e")} />
+        </div>
+      </main>
     </section>
   );
 }
