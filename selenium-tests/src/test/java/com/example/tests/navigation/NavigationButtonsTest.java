@@ -15,6 +15,7 @@ public class NavigationButtonsTest extends BaseTest {
     private static final String FORM_HEADER_TEXT = "Form";
     private static final String TABLE_HEADER_TEXT = "Table";
     private static final String SEARCH_HEADER_TEXT = "Search";
+    private static final String FRAMES_HEADER_TEXT = "Frames";
     private static final String ADMIN_HEADER_TEXT = "Admin Page";
     private static final String PROGRESS_HEADER_TEXT = "Progress";
     private static final String ADMIN_RESTRICTED_TEXT = "Restricted admin content";
@@ -74,6 +75,15 @@ public class NavigationButtonsTest extends BaseTest {
         var progressPage = formPage.clickProgressPageButton();
         assertOnProgressPage(progressPage);
         assertAdminPageButtonDisabled(progressPage);
+    }
+
+    @Test
+    public void framesAdminPageButtonIsDisabledForTesterTest() {
+        var formPage = loginAsTester();
+
+        var framesPage = formPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+        assertAdminPageButtonDisabled(framesPage);
     }
 
     @Test
@@ -149,6 +159,60 @@ public class NavigationButtonsTest extends BaseTest {
     }
 
     @Test
+    public void formPageToFramesPageToFormPageTest() {
+        var formPage = loginAsAdmin();
+
+        var framesPage = formPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+
+        var returningFormPage = framesPage.clickFormPageButton();
+        assertOnFormPage(returningFormPage);
+    }
+
+    @Test
+    public void framesPageToTablePageToFramesPageTest() {
+        var formPage = loginAsAdmin();
+
+        var framesPage = formPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+
+        var tablePage = framesPage.clickTablePageButton();
+        assertOnTablePage(tablePage);
+
+        var returningFramesPage = tablePage.clickFramesPageButton();
+        assertOnFramesPage(returningFramesPage);
+    }
+
+    @Test
+    public void framesPageToSearchPageToFramesPageTest() {
+        var formPage = loginAsAdmin();
+
+        var framesPage = formPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+
+        var searchPage = framesPage.clickSearchPageButton();
+        assertOnSearchPage(searchPage);
+
+        var returningFramesPage = searchPage.clickFramesPageButton();
+        assertOnFramesPage(returningFramesPage);
+    }
+
+    @Test
+    public void framesPageToProgressPageToFramesPageTest() {
+        var formPage = loginAsAdmin();
+
+        var framesPage = formPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+
+        var progressPage = framesPage.clickProgressPageButton();
+        assertOnProgressPage(progressPage);
+
+        var returningFramesPage = progressPage.clickFramesPageButton();
+        assertOnFramesPage(returningFramesPage);
+    }
+
+
+    @Test
     public void tablePageToSearchPageToTablePageTest() {
         var formPage = loginAsAdmin();
 
@@ -193,6 +257,21 @@ public class NavigationButtonsTest extends BaseTest {
     }
 
     @Test
+    public void tablePageToFramesPageToTablePageTest() {
+        var formPage = loginAsAdmin();
+
+        var tablePage = formPage.clickTablePageButton();
+        assertOnTablePage(tablePage);
+        assertAdminPageButtonEnabled(tablePage);
+
+        var framesPage = tablePage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+
+        var returningTablePage = framesPage.clickTablePageButton();
+        assertOnTablePage(returningTablePage);
+    }
+
+    @Test
     public void searchPageToAdminPageToSearchPageTest() {
         var formPage = loginAsAdmin();
 
@@ -223,6 +302,21 @@ public class NavigationButtonsTest extends BaseTest {
     }
 
     @Test
+    public void searchPageToFramesPageToSearchPageTest() {
+        var formPage = loginAsAdmin();
+
+        var searchPage = formPage.clickSearchPageButton();
+        assertOnSearchPage(searchPage);
+        assertAdminPageButtonEnabled(searchPage);
+
+        var framesPage = searchPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+
+        var returningSearchPage = framesPage.clickSearchPageButton();
+        assertOnSearchPage(returningSearchPage);
+    }
+
+    @Test
     public void progressPageToAdminPageToProgressPageTest() {
         var formPage = loginAsAdmin();
 
@@ -235,6 +329,21 @@ public class NavigationButtonsTest extends BaseTest {
 
         var returningProgressPage = adminPage.clickProgressPageButton();
         assertOnProgressPage(returningProgressPage);
+    }
+
+    @Test
+    public void framesPageToAdminPageToFramesPageTest() {
+        var formPage = loginAsAdmin();
+
+        var framesPage = formPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+        assertAdminPageButtonEnabled(framesPage);
+
+        var adminPage = framesPage.clickAdminPageButton();
+        assertOnAdminPage(adminPage);
+
+        var returningFramesPage = adminPage.clickFramesPageButton();
+        assertOnFramesPage(returningFramesPage);
     }
 
     @Test
@@ -291,6 +400,17 @@ public class NavigationButtonsTest extends BaseTest {
         assertOnLoginPage(loginPage);
     }
 
+    @Test
+    public void logoutFromFramesPage() {
+        var formPage = loginAsAdmin();
+
+        var framesPage = formPage.clickFramesPageButton();
+        assertOnFramesPage(framesPage);
+
+        var loginPage = framesPage.clickLogoutButton();
+        assertOnLoginPage(loginPage);
+    }
+
     private FormPage loginAsAdmin() {
         return loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
@@ -313,6 +433,10 @@ public class NavigationButtonsTest extends BaseTest {
 
     private void assertOnProgressPage(ProgressPage progressPage) {
         Assert.assertEquals(progressPage.getProgressPageHeader(), PROGRESS_HEADER_TEXT);
+    }
+
+    private void assertOnFramesPage(FramesPage framesPage) {
+        Assert.assertEquals(framesPage.getFramesPageHeader(), FRAMES_HEADER_TEXT);
     }
 
     private void assertOnAdminPage(AdminPage adminPage) {
@@ -344,6 +468,11 @@ public class NavigationButtonsTest extends BaseTest {
                 "Admin page button should be enabled for admin user");
     }
 
+    private void assertAdminPageButtonEnabled(FramesPage framesPage) {
+        Assert.assertTrue(framesPage.isAdminPageButtonEnabled(),
+                "Admin page button should be enabled for admin user");
+    }
+
     private void assertAdminPageButtonDisabled(FormPage formPage) {
         Assert.assertFalse(formPage.isAdminPageButtonEnabled(),
                 "Admin page button should be disabled for tester user");
@@ -361,6 +490,11 @@ public class NavigationButtonsTest extends BaseTest {
 
     private void assertAdminPageButtonDisabled(ProgressPage progressPage) {
         Assert.assertFalse(progressPage.isAdminPageButtonEnabled(),
+                "Admin page button should be disabled for tester user");
+    }
+
+    private void assertAdminPageButtonDisabled(FramesPage framesPage) {
+        Assert.assertFalse(framesPage.isAdminPageButtonEnabled(),
                 "Admin page button should be disabled for tester user");
     }
 }
