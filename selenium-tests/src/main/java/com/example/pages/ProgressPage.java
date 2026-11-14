@@ -21,6 +21,7 @@ public class ProgressPage extends BasePage {
     private final By tablePageMenuButton = By.cssSelector("[data-testid='nav-table']");
     private final By formPageMenuButton = By.cssSelector("[data-testid='nav-form']");
     private final By searchPageMenuButton = By.cssSelector("[data-testid='nav-search']");
+    private final By framesPageMenuButton = By.cssSelector("[data-testid='nav-frames']");
 
 
     public String getProgressPageHeader() {
@@ -47,6 +48,12 @@ public class ProgressPage extends BasePage {
         scroll(formPageMenuButton);
         click(formPageMenuButton);
         return new FormPage();
+    }
+
+    public FramesPage clickFramesPageButton() {
+        scroll(framesPageMenuButton);
+        click(framesPageMenuButton);
+        return new FramesPage();
     }
 
     public LoginPage clickLogoutButton() {
