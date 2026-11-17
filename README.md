@@ -19,10 +19,10 @@ It provides:
   - Interest checkboxes
   - Country dropdown
   - Submission success message
-- A table page with paginated sample user data
+- A table page with paginated sample user data and in-memory user editing and deletion
 - A search page with term, category, and status filters
-- A table page with in-memory user editing and deletion
 - A progress page with a 25-second progress bar that can be restarted
+- A frames page with text in the main document and two embedded iframes
 - An admin page that is available only to the `admin` user
 - Stable `data-testid` selectors for automation-friendly UI targeting
 
@@ -120,6 +120,7 @@ The suite follows the Page Object Model:
   - `AdminPage`
   - `SearchPage`
   - `ProgressPage`
+  - `FramesPage`, which reads text from the main document and each iframe
 - Utility classes in `src/main/java/com/example/utils/` provide reusable wait, dropdown, alert/switching, and driver helper methods.
 - Test classes in `src/test/java/com/example/tests/` are grouped by feature area.
 
@@ -138,8 +139,9 @@ The TestNG suite covers:
 - Radio button selection behavior
 - Country dropdown selection
 - Search behavior
-- Table pagination and user editing
+- Table pagination, user editing, and deletion
 - Progress page behavior, including intermediate progress, completion, and restart
+- Reading expected text from the main document and both iframes
 - Failure screenshot capture
 
 The suite is configured through:
