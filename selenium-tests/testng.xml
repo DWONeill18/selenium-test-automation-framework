@@ -16,6 +16,7 @@
       <class name="com.example.tests.table.EditUserTest"/>
       <class name="com.example.tests.table.TablePaginationTest"/>
       <class name="com.example.tests.progress.ProgressTest"/>
+      <class name="com.example.tests.frames.FramesTest"/>
     </classes>
   </test>
 </suite>
